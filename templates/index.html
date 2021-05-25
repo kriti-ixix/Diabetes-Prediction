@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	
+<head>
+	<title>Diabetes Prediction</title>
+</head>
+
+<body>
+	
+	<h1>Diabetes Prediction</h1>
+
+	<form action="http://127.0.0.1:5000/predict" method="post">
+
+		<label>Name: </label> 
+		<input type="text" name="name" placeholder="Enter your name" /> <br> <br>
+
+		<label>BMI: </label>
+		<input type="number" name="bmi" placeholder="Enter your BMI" /> <br> <br>
+
+		<label>Age: </label>
+		<input type="number" name="age" placeholder="Enter your age" /> <br> <br>
+
+		<label>Glucose: </label>
+		<input type="number" name="glucose" placeholder="Enter your glucose" /> <br> <br>
+
+		<input type="submit" name="submit"  value="Submit">
+		<input type="reset" name="reset" value="Reset">
+		
+	</form>
+
+	<br><br>
+	<h3>{{ diagnosis_text }}</h3> 
+	<h3>{{ confidence_text}}</h3> 
+
+
+	<style type="text/css">
+		
+		html {
+			background: linear-gradient(to top left, #33ccff 0%, #ff99cc 100%);
+			height: 100%;
+		}
+
+		h1 {
+			color: white;
+		}
+
+		body {
+			text-align: center;
+			color: #404040;
+			top: 50%;
+			left: 50%;
+			position: absolute;
+			margin: 0;
+			-ms-transform: translate(-50%, -50%);
+  			transform: translate(-50%, -50%);
+		}
+
+	</style>
+
+</body>
+
+</html>
