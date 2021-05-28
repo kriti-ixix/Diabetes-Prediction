@@ -11,39 +11,37 @@ loadedModel = pickle.load(open('diabetes.sav', 'rb'))
 
 @app.route('/', methods=['GET'])
 def Home():
-    return render_template('index.html')
+    return render_template('diabetes.html')
 
 
 #Taking the input from the form
 @app.route('/predict', methods=['POST'])
 def predict():
-    #Getting the input
-    if request.method=='POST':
-        bmi = int(request.form['bmi'])
-        age = int(request.form['age'])
-        glucose = int(request.form['glucose'])
+    #Getting the input from the form
+    bmi = int(request.form['bmi'])
+    age = int(request.form['age'])
+    glucose = int(request.form['glucose'])
+    
+    print("Age: ", age)
+    print("BMI: ", bmi)
+    print("Glucose: ", glucose)
 
-        #Making predictions
-        prediction = loadedModel.predict([[glucose, bmi, age]])  
-        confidence = loadedModel.predict_proba([[glucose, bmi, age]]) 
+    #Making the predictions
+    prediction = loadedModel.predict([[glucose, bmi, age]])[0]
+    confidence = loadedModel.predict_proba([[glucose, bmi, age]])
 
-        prediction = int(prediction[0])
-        sendConfidence = "Confidence: " + str(round(np.amax(confidence[0])*100, 2))
-
-        if (prediction == 1):
-            sendPrediction = "Diagnosis: Diabetic"
-
-        elif (prediction == 0):
-            sendPrediction = "Diagnosis: Not diabetic"
-
-        print(sendPrediction)
-        print(sendConfidence)
-
-        #Returning the predictions
-        return render_template('index.html', diagnosis_text=sendPrediction, confidence_text=sendConfidence)
-
+    if prediction == 1:
+        sendPrediction = "Diabetic"
     else:
-        return render_template('index.html')
+        sendPrediction = "Not Diabetic"
+
+    sendConfidence = str(round((np.amax(confidence[0])*100),2))
+    
+    print(sendPrediction)
+    print(sendConfidence)
+
+    return render_template('diabetes.html', diagnosis_output = sendPrediction, 
+                            confidence_output = sendConfidence)
 
 
 #Main function
